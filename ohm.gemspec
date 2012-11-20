@@ -18,9 +18,11 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "ohm"
   s.add_dependency "json", "~> 1.4.6"
-  s.add_dependency "redis"
-  s.add_dependency "nest", "~> 1.0"
+  s.add_dependency "redis", "2.2.2"
+  s.add_dependency "nest", "~> 1.1.2"
   s.add_dependency "scrivener", "~> 0.0.3"
+  s.add_test_dependency "pry"
+  s.add_development_dependency "pry"
   s.add_development_dependency "require_relative"
   s.add_development_dependency "cutest", "1.1.3"
 end
