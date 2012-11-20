@@ -1,3 +1,4 @@
+require 'require_relative'
 require "rake/testtask"
 
 REDIS_DIR = File.expand_path(File.join("..", "test"), __FILE__)
