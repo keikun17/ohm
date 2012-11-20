@@ -72,7 +72,7 @@ test "indices bug related to a nil attribute" do |john, jane|
 
   # Then, we update the old nil attribute to a different
   # non-nil, value.
-  out.update(status: "inactive")
+  out.update(:status => "inactive")
 
   # At this point, the index for the nil attribute should
   # have been cleared.
@@ -177,8 +177,8 @@ scope do
 
     Post.connect(:logger => Logger.new(io))
 
-    Post.create(author: "matz", mood: "happy")
-    Post.create(author: "rich", mood: "mad")
+    Post.create(:author => "matz", :mood => "happy")
+    Post.create(:author => "rich", :mood => "mad")
 
     io
   end
@@ -189,7 +189,7 @@ scope do
   end
 
   test "SINTERSTORE a b" do |io|
-    Post.find(author: "matz").find(mood: "happy").to_a
+    Post.find(:author => "matz").find(:mood => "happy").to_a
 
     # This is the simple case. We should only do one SINTERSTORE
     # given two direct keys. Anything more and we're performing badly.
@@ -200,7 +200,7 @@ scope do
   end
 
   test "SUNIONSTORE a b" do |io|
-    Post.find(author: "matz").union(mood: "happy").to_a
+    Post.find(:author => "matz").union(:mood => "happy").to_a
 
     # Another simple case where we must only do one operation at maximum.
     expected = "SUNIONSTORE Post:tmp:[a-f0-9]{64} " +
@@ -210,7 +210,7 @@ scope do
   end
 
   test "SUNIONSTORE c (SINTERSTORE a b)" do |io|
-    Post.find(author: "matz").find(mood: "happy").union(author: "rich").to_a
+    Post.find(:author => "matz").find(:mood => "happy").union(:author => "rich").to_a
 
     # For this case we need an intermediate key. This will
     # contain the intersection of matz + happy.
@@ -228,8 +228,8 @@ scope do
   end
 
   test "SUNIONSTORE (SINTERSTORE c d) (SINTERSTORE a b)" do |io|
-    Post.find(author: "matz").find(mood: "happy").
-         union(author: "rich", mood: "sad").to_a
+    Post.find(:author  => "matz").find(:mood => "happy").
+         union(:author => "rich", :mood => "sad").to_a
 
     # Similar to the previous case, we need to do an intermediate
     # operation.
@@ -258,11 +258,11 @@ scope do
   end
 
   test do |io|
-    Post.create(author: "kent", mood: "sad")
+    Post.create(:author => "kent", :mood => "sad")
 
-    Post.find(author: "kent", mood: "sad").
-         union(author: "matz", mood: "happy").
-         except(mood: "sad", author: "rich").to_a
+    Post.find(:author => "kent", :mood => "sad").
+         union(:author => "matz", :mood => "happy").
+         except(:mood => "sad", :author => "rich").to_a
 
     expected = "SINTERSTORE (Post:tmp:[a-f0-9]{64}) " +
                "Post:indices:author:kent Post:indices:mood:sad"

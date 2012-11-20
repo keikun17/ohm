@@ -17,6 +17,10 @@ ensure
   $VERBOSE = original_verbose
 end
 
+def assert_equal(a,b)
+  assert a == b
+end
+
 $VERBOSE = true
 
 require "ohm"

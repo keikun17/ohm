@@ -115,14 +115,14 @@ scope do
 
   test "index bug" do
     n = Node.create
-    n.update(capacity: 91)
+    n.update(:capacity => 91)
 
-    assert_equal 0, Node.find(available: true).size
+    assert_equal 0, Node.find(:available => true).size
   end
 
   test "uniques bug" do
     n = Node.create
-    n.update(capacity: 91)
+    n.update(:capacity => 91)
 
     assert_equal nil, Node.with(:available, true)
   end
