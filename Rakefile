@@ -25,7 +25,6 @@ task :stop do
 end
 
 task :test do
-  require 'require_relative'
   require File.expand_path("./test/helper", File.dirname(__FILE__))
 
   Cutest.run(Dir["test/*.rb"])

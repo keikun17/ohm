@@ -1,3 +1,4 @@
+require 'require_relative'
 require_relative "helper"
 
 class Model < Ohm::Model
